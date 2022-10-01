@@ -1,10 +1,69 @@
-import { TodosAccess } from './todosAcess'
-import { AttachmentUtils } from './attachmentUtils';
-import { TodoItem } from '../models/TodoItem'
-import { CreateTodoRequest } from '../requests/CreateTodoRequest'
-import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
-import { createLogger } from '../utils/logger'
-import * as uuid from 'uuid'
-import * as createError from 'http-errors'
+import { TodoAccess } from "./todosAccess";
+import { TodoItem } from "../models/TodoItem";
+import { CreateTodoData, TodoKey, UpdateTodoData } from "../types/types";
 
-// TODO: Implement businessLogic
+/**
+ * Get Todos for the current user
+ * @param todosId string
+ * @returns Array of Todo items
+ */
+export async function getTodosForUser(todosId: string): Promise<TodoItem[]> {
+    const data: TodoAccess = new TodoAccess()
+    return data.getTodos(todosId)
+}
+
+/**
+ * Ccheck if todo exists
+ * @param userId string
+ * @returns boolean
+ */
+export async function todosExists(userId: string): Promise<boolean>{
+    const data: TodoAccess = new TodoAccess()
+    return data.todosExist(userId)
+}
+
+/**
+ * Create a todo
+ * @param createTodo Object CreateTodoData
+ * @returns Object Todo Item
+ */
+export async function createTodo(createTodo: CreateTodoData): Promise<TodoItem> {
+    const data: TodoAccess = new TodoAccess()
+    const newTodo: TodoItem = {
+        ...createTodo,
+        createdAt: new Date().toISOString(),
+        done: false
+    }
+    return data.createTodo(newTodo)
+}
+
+/**
+ * deleteTodo
+ * @param Key Object TodoKey
+ * @returns Promise void
+ */
+export const deleteTodo = async (Key: TodoKey): Promise<void> => {
+    const data: TodoAccess = new TodoAccess()
+    return data.deleteTodo(Key)
+}
+
+/**
+ * Update a todo Item
+ * @param updateItem Object UpdateTodoData
+ * @returns Promise void
+ */
+export const updateTodo = async (updateItem: UpdateTodoData): Promise<void> => {
+    const data: TodoAccess = new TodoAccess()
+    return data.updateTodo(updateItem)
+}
+
+/**
+ * Create a presigned url from S3 bucket
+ * @param todoId string
+ * @returns string url
+ */
+export const createAttachmentPresignedUrl = (todoId: string): string => {
+    const data: TodoAccess = new TodoAccess()
+    return data.generateSignedUrl(todoId)
+}
+

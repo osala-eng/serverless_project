@@ -1,13 +1,14 @@
 import 'source-map-support/register'
-
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
-
-import { updateTodo } from '../../businessLogic/todos'
+import { updateTodo } from '../../helpers/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { getUserId } from '../utils'
-import { TodoItem } from '../../models/TodoItem'
+import { Logs } from 'src/types/types'
+import { createLogger } from 'src/utils/logger'
+
+const logger: Logs.Logger = createLogger('updateTodos')
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -15,9 +16,10 @@ export const handler = middy(
     const updatedTodo: UpdateTodoRequest = JSON.parse(event.body)
     // TODO: Update a TODO item with the provided id using values in the "updatedTodo" object
 
+    logger.info(`Updating todo ${todoId}`)
     const userId: string = getUserId(event)
 
-    const result: TodoItem = await updateTodo({
+    await updateTodo({
       todoId: todoId,
       userId: userId,
       ...updatedTodo
@@ -25,7 +27,7 @@ export const handler = middy(
 
     return {
       statusCode: 201,
-      body: JSON.stringify(result)
+      body: JSON.stringify({})
     }
 })
 

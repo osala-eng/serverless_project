@@ -1,13 +1,16 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda'
 import 'source-map-support/register'
 import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
+import { cors, httpErrorHandler } from 'middy/middlewares'
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
 import { getUserId } from '../utils';
-import { createTodo } from '../../businessLogic/todos'
-import uuid from 'uuid'
-import { CreateTodoData } from '../../types/types'
+import { createTodo } from '../../helpers/todos'
+import * as uuid from 'uuid'
+import { CreateTodoData, Logs } from '../../types/types'
 import { TodoItem } from '../../models/TodoItem'
+import { createLogger } from '../../utils/logger'
+
+const logger: Logs.Logger = createLogger('createTodo')
 
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
@@ -19,18 +22,21 @@ export const handler = middy(
       todoId: uuid.v4(),
       ...newTodo
     } 
-    const todoItem: TodoItem = await createTodo(createParams)
+
+    logger.info(`Creating new todo`, newTodo)
+
+    const item: TodoItem = await createTodo(createParams)
 
     return {
         statusCode: 201,
-        body: JSON.stringify({
-          newItem: todoItem
-        })
+        body: JSON.stringify({ item })
       }
-    }
+    }  
 )
 
-handler.use(
+handler
+.use(httpErrorHandler)
+.use(
   cors({
     credentials: true
   })
