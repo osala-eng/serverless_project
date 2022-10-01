@@ -5,8 +5,8 @@ import { cors, httpErrorHandler } from 'middy/middlewares'
 import { updateTodo } from '../../helpers/todos'
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
 import { getUserId } from '../utils'
-import { Logs } from 'src/types/types'
-import { createLogger } from 'src/utils/logger'
+import { Logs } from '../../types/types'
+import { createLogger } from '../../utils/logger'
 
 const logger: Logs.Logger = createLogger('updateTodos')
 

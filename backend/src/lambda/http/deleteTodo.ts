@@ -15,7 +15,7 @@ export const handler = middy(
     // TODO: Remove a TODO item by id
     logger.info(`Deleting todo: ${todoId}`)
 
-    if(!todoId) throw new Error('Todo Id is required');
+    if(!todoId) logger.error('Todo id is required', event);
     const Key: TodoKey = {
       userId: getUserId(event),
       todoId: todoId

@@ -18,7 +18,8 @@ export const handler = middy(
     const userId: string = getUserId(event)
     logger.info(`Creating presigned url for user ${userId}`)
 
-    if (!todoId) throw new Error("Todo id is required")
+    if (!todoId) logger.error('Todo id is required', event)
+    
     const url: string = createAttachmentPresignedUrl(todoId)
 
     return {

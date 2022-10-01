@@ -4,12 +4,12 @@ import { CreateTodoData, TodoKey, UpdateTodoData } from "../types/types";
 
 /**
  * Get Todos for the current user
- * @param todosId string
+ * @param todoId string
  * @returns Array of Todo items
  */
-export async function getTodosForUser(todosId: string): Promise<TodoItem[]> {
+export async function getTodosForUser(todoId: string): Promise<TodoItem[]> {
     const data: TodoAccess = new TodoAccess()
-    return data.getTodos(todosId)
+    return data.getTodos(todoId)
 }
 
 /**

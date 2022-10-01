@@ -18,7 +18,7 @@ export class TodoAccess extends TodoUtils{
      * 
      * @param docClient DynamoDb client
      * @param todosTable DynamoDb table
-     * @param indexName Table index name
+     * @param indexName Table indexName
      */
     constructor (
         private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient(),
