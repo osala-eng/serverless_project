@@ -4,7 +4,7 @@ import * as middy from 'middy'
 import { cors, httpErrorHandler } from 'middy/middlewares'
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
 import { getUserId } from '../utils';
-import { createTodo } from '../../helpers/todos'
+import { createTodo } from '../../businessLogic/todos'
 import * as uuid from 'uuid'
 import { CreateTodoData, Logs } from '../../types/types'
 import { TodoItem } from '../../models/TodoItem'

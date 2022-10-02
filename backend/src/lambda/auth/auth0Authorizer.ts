@@ -3,7 +3,7 @@ import 'source-map-support/register'
 import { verify } from 'jsonwebtoken'
 import { createLogger } from '../../utils/logger'
 import { JwtPayload } from '../../auth/JwtPayload'
-import { TodoAccess } from '../../helpers/todosAccess'
+import { TodoAccess } from '../../dataLayer/todosAccess'
 
 const logger = createLogger('auth')
 

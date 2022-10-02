@@ -1,18 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "group",
+  "title": "todo",
   "type": "object",
   "properties": {
-    "name": {
-      "type": "string"
+    "name": { 
+      "$ref": "#/definitions/not-empty-string" 
     },
     "dueDate": {
-      "type": "string"
+      "$ref": "#/definitions/least-date-chars"
     }
   },
   "required": [
     "name",
     "dueDate"
   ],
+  "definitions": {
+    "not-empty-string":{
+      "type": "string",
+      "minLength": 3
+    },
+    "least-date-chars":{
+      "type": "string",
+      "minLength": 6
+    }
+  },
   "additionalProperties": false
 }

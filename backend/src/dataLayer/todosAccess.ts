@@ -3,7 +3,7 @@ import { DocumentClient } from 'aws-sdk/clients/dynamodb'
 import {TodoItem} from '../models/TodoItem'
 import { DbItems, EnvString, Result, TodoKey, UpdateTodoData } from '../types/types'
 import * as AWSXRay from 'aws-xray-sdk'
-import { TodoUtils } from './attachmentUtils'
+import { TodoUtils } from '../helpers/attachmentUtils'
 
 
 const AWS = AWSXRay.captureAWS(SDK_AWS);
@@ -23,7 +23,7 @@ export class TodoAccess extends TodoUtils{
     constructor (
         private readonly docClient: DocumentClient = new AWS.DynamoDB.DocumentClient(),
         private readonly todosTable: EnvString = process.env.TODOS_TABLE,
-        private readonly indexName: string = process.env.TODOS_CREATED_AT_INDEX)
+        private readonly indexName: EnvString = process.env.TODOS_CREATED_AT_INDEX)
         {
             super()
         }
